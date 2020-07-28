@@ -26,6 +26,17 @@ static constexpr auto USAGE =
           --drifting    Drifting mine.
 )";
 
+int f() {
+  int i;
+  int total = 0;
+  // Infinite loop to trigger cpp/constant-comparison: https://lgtm.com/rules/2154840804/
+  for (i = 0; i < 10; i = i+1) {  // BAD: comparison is always true, because i <= 5.
+    i = i % 5;
+    total += i;
+  }
+  return total;
+}
+
 int main(int argc, const char **argv)
 {
   std::map<std::string, docopt::value> args = docopt::docopt(USAGE,

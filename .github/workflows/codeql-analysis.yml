@@ -72,12 +72,14 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+      with:
+        output: .
 
     - name: List Results
       run: |
-        ls ../results
+        ls .
 
     - uses: actions/upload-artifact@v2
       with:
         name: cpp.sarif
-        path: ../results/cpp.sarif
+        path: cpp.sarif

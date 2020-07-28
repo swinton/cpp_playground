@@ -14,8 +14,8 @@ env:
   BUILD_TYPE: RelWithDebInfo
 
 jobs:
-  analyse:
-    name: Analyse
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
 
     steps:

@@ -26,20 +26,26 @@ static constexpr auto USAGE =
           --drifting    Drifting mine.
 )";
 
-int f() {
-  int i;
-  int total = 0;
-  // Infinite loop to trigger cpp/constant-comparison: https://lgtm.com/rules/2154840804/
-  for (i = 0; i < 10; i = i+1) {  // BAD: comparison is always true, because i <= 5.
-    i = i % 5;
-    total += i;
-  }
-  return total;
+// Known violation of https://lgtm.com/rules/2156560627/
+bool checkOverflow(unsigned short x, unsigned short y) {
+  // BAD: comparison is always false due to type promotion
+  return (x + y < x);
 }
 
-// known violation of https://lgtm.com/rules/2160310550/
 int main(int argc, const char **argv)
 {
-  printf("%s\n", 42); //printf will treat 42 as a char*, will most likely segfault
-  return 0;
+  std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
+    { std::next(argv), std::next(argv, argc) },
+    true,// show help if requested
+    "Naval Fate 2.0");// version string
+
+  for (auto const &arg : args) {
+    std::cout << arg.first << arg.second << std::endl;
+  }
+
+
+  //Use the default logger (stdout, multi-threaded, colored)
+  spdlog::info("Hello, {}!", "World");
+
+  fmt::print("Hello, from {}\n", "{fmt}");
 }

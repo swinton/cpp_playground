@@ -37,20 +37,9 @@ int f() {
   return total;
 }
 
+// known violation of https://lgtm.com/rules/2160310550/
 int main(int argc, const char **argv)
 {
-  std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
-    { std::next(argv), std::next(argv, argc) },
-    true,// show help if requested
-    "Naval Fate 2.0");// version string
-
-  for (auto const &arg : args) {
-    std::cout << arg.first << arg.second << std::endl;
-  }
-
-
-  //Use the default logger (stdout, multi-threaded, colored)
-  spdlog::info("Hello, {}!", "World");
-
-  fmt::print("Hello, from {}\n", "{fmt}");
+  printf("%s\n", 42); //printf will treat 42 as a char*, will most likely segfault
+  return 0;
 }
